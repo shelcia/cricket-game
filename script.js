@@ -126,20 +126,27 @@ var Game = /** @class */ (function () {
         this.toggle = 1;
         this.running = 0;
         this.seconds = 0;
+        //METHOD TO GENERATE RUNS BETWEEN 0-6
         this.randomRunGenerator = function () {
             var run = Math.floor(Math.random() * 7);
             return run;
         };
+        // METHOD TO DISPLAY RUNS IN THE TABLE INITITES WITH CLICK EVENT
         this.displayRuns = function () {
+            //IF CONDITION FOR 1P PLAYERS
             if (_this.players < 11) {
+                //INITIALISATION OF A TEAM'S PLAY
                 if (_this.players === 1) {
                     _this.startTimer();
                 }
+                // ELEMENT CREATED FOR TOTAL OF EACH PLAYER
                 var totalPara = document.createElement("td");
+                //IF CONDITION FOR 6 BALLS
                 if (_this.balls < 7) {
                     var run = _this.randomRunGenerator();
                     var run_data = document.createElement("td");
                     run_data.innerHTML = "" + run;
+                    //IF THE BATSMAN IS OUT I.E IF HE SCORES ZERO
                     if (run === 0) {
                         document
                             .getElementById("t" + _this.team + _this.players)
@@ -148,6 +155,7 @@ var Game = /** @class */ (function () {
                         document
                             .getElementById("t" + _this.team + _this.players)
                             .appendChild(totalPara);
+                        //INCREEMENTS AS NEXT PLAYER WILL BE PLAYING
                         _this.players++;
                         _this.balls = 1;
                         _this.total = 0;
@@ -163,6 +171,7 @@ var Game = /** @class */ (function () {
                     }
                 }
                 else {
+                    //AFTER A PLAYER'S CHANCE IS OVER I.E AFTER HE PLAYS 6 BALLS
                     totalPara.innerHTML = "<b style=\"color:dodgerblue\">" + _this.total + "</b>";
                     document
                         .getElementById("t" + _this.team + _this.players)
@@ -173,35 +182,38 @@ var Game = /** @class */ (function () {
                 }
             }
             else {
+                //WHEN ALL PLAYERS HAVE COMPLETED
                 document.getElementById("score" + _this.team).innerHTML = _this.teamTotal;
             }
         };
+        //METHOD TO START/INITIALISE TIMER FOR BOTH TEAMS(ON FIRST CLICK EVENT)
         this.startTimer = function () {
             if (!_this.running) {
                 _this.startTime = new Date().getTime();
-                _this.tInterval = setInterval(_this.getShowTime, 1);
+                _this.tInterval = setInterval(_this.displayTime, 1);
                 _this.running = 1;
             }
         };
-        this.getShowTime = function () {
+        //METHOD TO DISPLAYTIMER FOR BOTH TEAMS
+        this.displayTime = function () {
             _this.updatedTime = new Date().getTime();
             _this.difference = _this.updatedTime - _this.startTime;
             _this.seconds = Math.floor((_this.difference % (1000 * 60)) / 1000);
             _this.seconds = _this.seconds < 10 ? "0" + _this.seconds : _this.seconds;
             timerDisplay.innerHTML = _this.seconds + "s";
+            //IF TIMER REACHES 60 SECONDS IT HAS TO RESET FOR NEXT TEAM
             if (_this.seconds == 10) {
                 _this.resetTimer();
             }
-            if (_this.seconds > 10) {
-                _this.seconds = 0;
-            }
         };
+        //METHOD USED TO RESET TIMER FOR THE SECOND TEAM
         this.resetTimer = function () {
             _this.difference = 0;
             _this.running = 0;
             _this.seconds = "0";
             timerDisplay.innerHTML = _this.seconds + "s";
             clearInterval(_this.tInterval);
+            //AFTER FIRST TEAM COMPLETES IT'S TURN
             if (_this.toggle === 1) {
                 hitOne.setAttribute("class", "btn btn-primary disabled");
                 hitOne.removeEventListener("click", game.displayRuns, false);
@@ -214,12 +226,14 @@ var Game = /** @class */ (function () {
                 _this.teamTotal = 0;
                 _this.toggle = 0;
             }
+            //AFTER SECOND TEAM COMPLETES IT'S TURN
             else {
                 hitTwo.setAttribute("class", "btn btn-primary disabled");
                 hitTwo.removeEventListener("click", game.displayRuns, false);
                 _this.handleWinner();
             }
         };
+        //COMPARES THE RUNS SCORED AND DISPLAY APPROPRIATE RESULTS
         this.handleWinner = function () {
             var team1 = document.getElementById("score1").innerHTML;
             var team2 = document.getElementById("score2").innerHTML;
@@ -236,5 +250,6 @@ var Game = /** @class */ (function () {
     }
     return Game;
 }());
+//INSTANTIATIONING THE CLASS
 var game = new Game();
 document.getElementById("hit1").addEventListener("click", game.displayRuns);
