@@ -184,6 +184,7 @@ var Game = /** @class */ (function () {
             else {
                 //WHEN ALL PLAYERS HAVE COMPLETED
                 document.getElementById("score" + _this.team).innerHTML = _this.teamTotal;
+                _this.resetTimer();
             }
         };
         //METHOD TO START/INITIALISE TIMER FOR BOTH TEAMS(ON FIRST CLICK EVENT)
@@ -201,8 +202,8 @@ var Game = /** @class */ (function () {
             _this.seconds = Math.floor((_this.difference % (1000 * 60)) / 1000);
             _this.seconds = _this.seconds < 10 ? "0" + _this.seconds : _this.seconds;
             timerDisplay.innerHTML = _this.seconds + "s";
-            //IF TIMER REACHES 60 SECONDS IT HAS TO RESET FOR NEXT TEAM
-            if (_this.seconds == 10) {
+            //IF TIMER REACHES 10 SECONDS IT HAS TO RESET FOR NEXT TEAM
+            if (_this.seconds == 59) {
                 _this.resetTimer();
             }
         };
@@ -235,8 +236,8 @@ var Game = /** @class */ (function () {
         };
         //COMPARES THE RUNS SCORED AND DISPLAY APPROPRIATE RESULTS
         this.handleWinner = function () {
-            var team1 = document.getElementById("score1").innerHTML;
-            var team2 = document.getElementById("score2").innerHTML;
+            var team1 = parseInt(document.getElementById("score1").innerHTML);
+            var team2 = parseInt(document.getElementById("score2").innerHTML);
             if (team1 > team2) {
                 document.getElementById("result").innerHTML = "team 1 is the winner";
             }
