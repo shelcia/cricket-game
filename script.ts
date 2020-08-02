@@ -233,7 +233,7 @@ class Game {
     this.seconds = this.seconds < 10 ? "0" + this.seconds : this.seconds;
     timerDisplay.innerHTML = this.seconds + "s";
     //IF TIMER REACHES 60 SECONDS IT HAS TO RESET FOR NEXT TEAM
-    if (this.seconds == 10) {
+    if (this.seconds == 60) {
       this.resetTimer();
     }
   };
