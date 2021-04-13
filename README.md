@@ -1,4 +1,5 @@
-# cricket-game using Type Script
+# Cricket Game
 
+Classic OG cricket game written in Typescript
 
-https://cricket-game-tik-tac-toe.netlify.app/
+https://cricket-game-typescript.netlify.app/
